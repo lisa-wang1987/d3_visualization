@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+	<style>
+		body{
+			text-align: center;
+			background-color: #FFCCCC;
+		}
+
+		.title{
+			font-family: arial;
+		}
+
+		p {
+			text-align: left;
+			padding-left: 300px;
+		}
+		div.type_buttons{
+			position:fixed;
+			top: 300px;
+			left: 1200px;
+		}
+
+		div.type_buttons div{
+			background-color:#FFDDAA;
+			padding: 5px;
+			margin: 10px;
+			font-size: 15PX;
+		}
+
+		div.text{
+			font:12px sans-serif;
+			width: 500px;
+		}
+
+	</style>
+	<script type="text/javascript">
+		function draw(data) {
+			"use strict";
+			//set the size of svg
+			var margin=70,
+					width=1200-margin,
+					height=600-margin;
+
+			var svg=d3.select("body")
+								.append('svg')
+								.attr('width',width+margin)
+								.attr('height',height+margin)
+								.append('g')
+								.attr('class','chart');
+
+			d3.select('svg')
+				.selectAll('bar')
+				.data(data)
+				.enter()
+				.append('bar');
+
+			function create_chart(button_label) {
+				var chart1=svg.selectAll('*').remove();
+				chart1=draw_chart(button_label);
+				chart1.draw();
+			};
+
+
+			function draw_chart(button){
+				var myChart = new dimple.chart(svg,data);
+				var x=myChart.addCategoryAxis('x','Occupation');
+				x.title='Occupaiton'
+                x.tickle='Occupaiton'
+				var y=myChart.addMeasureAxis('y',button); //draw myChart according to button
+				if (button==='LoanOriginalAmount') {
+					y.title='Amount';
+				} else {
+					y.title='rate';
+				}
+				var mySeries=myChart.addSeries(null,dimple.plot.bar);
+				mySeries.afterDraw=function(shape,data) {
+					var s=d3.select(shape),
+							rect={
+								x: parseFloat(s.attr("x")),
+                y: parseFloat(s.attr("y")),
+                width: parseFloat(s.attr("width")),
+                height: parseFloat(s.attr("height"))
+							};
+
+                            svg.append('text')
+							 .attr("x", rect.x + rect.width / 2)
+                             .attr("y", rect.y + rect.height / 2 + 3.5)
+                // Centre align
+               .style("text-anchor", "middle")
+               .style("font-size", "10px")
+               .style("font-family", "sans-serif")
+               .style("opacity", 0.6)
+                //Format the number
+               .text(data.yValue);
+
+				};
+
+				return myChart;
+			};
+
+			//create default chart
+			create_chart('LoanOriginalAmount');
+
+			//create three buttons
+			var button_labels=['LoanOriginalAmount','BorrowerAPR','BorrowerRate','LenderYield'];
+			var buttons=d3.select('body')
+						  .append('div')
+						  .attr('class','type_buttons')
+						  .selectAll('div')
+						  .data(button_labels)
+						  .enter()
+						  .append('div')
+						  .text(function(d) {
+						  	return d;
+						  });
+
+			//create action of buttons	based on click event
+			buttons.on('click',function(d) {
+				d3.select('.type_buttons')
+					.selectAll('div')
+					.transition()
+					.duration(500)
+					.style('color','red'); //change the style to the initial
+
+				d3.select(this)
+					.transition()
+					.duration(500)
+					.style('color','pink'); //change the style to new status
+				create_chart(d);
+			});
+
+		};
+	</script>
+
+</head>
+<body>
+	<h1 class='title'>
+		<font size="5">贷款量统计图表</font>
+	</h1>
+	<p>
+		<font size="2" text-align="left">
+		<br>不同职业类型平均借款金额条形图
+		<br>不同职业类型平均BorrowerAPR条形图
+		<br>不同职业类型平均BorrowerRate条形图
+		<br>不同职业类型平均LenderField条形图
+		</font>
+	</p>
+	<script type="text/javascript">
+		d3.csv("data_1.csv",draw);
+	</script>
+
+</body>
+</html>

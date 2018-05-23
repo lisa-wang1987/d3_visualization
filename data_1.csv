@@ -1,0 +1,21 @@
+Occupation,LoanOriginalAmount,BorrowerAPR,BorrowerRate,LenderYield,Occupation
+Accountant/CPA,919.0,20,18,17,Accountant/CPA
+Administrative Assistant,659.0,24,21,20,Administrative Assistant
+Analyst,916.0,20,17,16,Analyst
+Architect,975.0,19,17,16,Architect
+Attorney,1130.0,19,16,15,Attorney
+Biologist,842.0,21,18,17,Biologist
+Bus Driver,678.0,24,21,20,Bus Driver
+Car Dealer,932.0,21,19,18,Car Dealer
+Chemist,886.0,20,18,17,Chemist
+Civil Service,886.0,22,19,18,Civil Service
+Clergy,795.0,22,19,18,Clergy
+Clerical,596.0,23,21,20,Clerical
+Computer Programmer,942.0,19,16,15,Computer Programmer
+Construction,928.0,21,19,18,Construction
+Dentist,1091.0,20,17,16,Dentist
+Doctor,1311.0,18,16,15,Doctor
+Engineer - Chemical,1083.0,19,16,15,Engineer - Chemical
+Engineer - Electrical,986.0,19,16,15,Engineer - Electrical
+Engineer - Mechanical,964.0,20,17,16,Engineer - Mechanical
+Executive,1189.0,20,17,16,Executive
